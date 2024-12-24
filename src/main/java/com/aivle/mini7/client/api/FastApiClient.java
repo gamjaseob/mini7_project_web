@@ -1,7 +1,7 @@
 package com.aivle.mini7.client.api;
 
 
-import com.aivle.mini7.client.dto.HospitalResponse;
+import com.aivle.mini7.client.dto.FastApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +16,7 @@ import java.util.List;
 public interface FastApiClient {
 
      @GetMapping("/hospital_by_module")
-     public List<HospitalResponse> getHospital(@RequestParam("request") String request, @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude,
+     public FastApiResponse getHospital(@RequestParam("request") String request, @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude,
                                                @RequestParam("count") int count); //count 추가
 
 }
