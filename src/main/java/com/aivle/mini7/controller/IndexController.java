@@ -26,12 +26,14 @@ public class IndexController {
 
     @PostMapping("/recommend_hospital")
     public ModelAndView recommend_hospital(@RequestParam("request") String request,
-                                           @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
+                                           @RequestParam("latitude") double latitude, 
+                                           @RequestParam("longitude") double longitude,
+                                           @RequestParam("count") int count) {
         System.out.println("request" + request);
         System.out.println("latitude" + latitude);
         System.out.println("longitude" + longitude);
         // FastApiClient 를 호출한다.
-        List<HospitalResponse> hospitalList = fastApiClient.getHospital(request, latitude, longitude);
+        List<HospitalResponse> hospitalList = fastApiClient.getHospital(request, latitude, longitude, count);
         ModelAndView mv = new ModelAndView();
         if (hospitalList == null || hospitalList.isEmpty()) {
             mv.setViewName("personal");
