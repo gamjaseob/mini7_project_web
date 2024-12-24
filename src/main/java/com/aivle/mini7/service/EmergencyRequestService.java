@@ -12,7 +12,9 @@ import java.util.List;
 public class EmergencyRequestService {
 
     private final EmergencyRequestRepository repository;
-
+    public EmergencyRequest saveRequest(EmergencyRequest request) {
+        return repository.save(request);
+    }
     // 모든 데이터 가져오기
     public List<EmergencyRequest> getAllRequests() {
         return repository.findAll();
