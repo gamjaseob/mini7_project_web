@@ -1,56 +1,61 @@
-
-
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Search</title>
     <!-- 부트스트랩 CSS 추가 -->
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l4qkgfubo0"></script>
+    <script type="text/javascript" th:src="|https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${mapId}|"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body class="bg-light">
-<!-- 네비 -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">AIVLE SCHOOL 20조</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
-<!-- 본문 -->
 
-<!--
+<body class="bg-light">
+    <!-- 네비 -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">AIVLE SCHOOL 20조</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!-- 본문 -->
+
+    <!--
 <div class="container my-5">
     <h1 class="text-center text-primary mb-4">Hospital Search</h1>
 
@@ -83,107 +88,102 @@
 </div>
 -->
 
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h1 class="card-title">응급실 검색</h1>
-        </div>
-        <div class="card-body">
-            <form id="inputForm" action="/recommend_hospital" method="post">
-                <!-- Text Input -->
-                <div class="mb-3">
-                    <label for="request" class="form-label">사건 내용</label>
-                    <div class="d-flex align-items-center">
-                        <input type="text" id="request" name="request" class="form-control me-2" placeholder="상황을 입력하세요">
-                        <button type="button" onclick="startRecord()" class="btn btn-outline-primary me-1">⏺️</button>
-                        <button type="button" onclick="endRecord()" class="btn btn-outline-danger">🛑</button>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">응급실 검색</h1>
+            </div>
+            <div class="card-body">
+                <form id="inputForm" action="/recommend_hospital" method="post">
+                    <!-- Text Input -->
+                    <div class="mb-3">
+                        <label for="request" class="form-label">사건 내용</label>
+                        <div class="d-flex align-items-center">
+                            <input type="text" id="request" name="request" class="form-control me-2"
+                                placeholder="상황을 입력하세요">
+                            <button type="button" onclick="startRecord()"
+                                class="btn btn-outline-primary me-1">⏺️</button>
+                            <button type="button" onclick="endRecord()" class="btn btn-outline-danger">🛑</button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Coordinates Input -->
-                <div class="mb-3">
-                    <div class="input-group">
-                        <input id="latitude" name="latitude" type="number" step="any" class="form-control"
-                               placeholder="위도" value="37.538435245262626" readonly>
-                        <input id="longitude" name="longitude" type="number" step="any" class="form-control"
-                               placeholder="경도" value="126.98982802695484" readonly>
+                    <!-- Coordinates Input -->
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input id="latitude" name="latitude" type="number" step="any" class="form-control"
+                                placeholder="위도" value="37.538435245262626" readonly>
+                            <input id="longitude" name="longitude" type="number" step="any" class="form-control"
+                                placeholder="경도" value="126.98982802695484" readonly>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Map Display -->
-                <div class="mb-3">
-                    <label for="map" class="form-label">Map</label>
-                    <div id="map" style="width: 100%; height: 300px; background-color: #e9ecef;"></div>
-                </div>
+                    <!-- Map Display -->
+                    <div class="mb-3">
+                        <label for="map" class="form-label">Map</label>
+                        <div id="map" style="width: 100%; height: 300px; background-color: #e9ecef;"></div>
+                    </div>
 
-                <!-- Submit Button -->
-                <button class="btn btn-primary w-100" type="submit">Submit</button>
-            </form>
+                    <!-- Submit Button -->
+                    <button class="btn btn-primary w-100" type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- 부트스트랩 JS 추가 -->
-<script>
+    <!-- 부트스트랩 JS 추가 -->
+    <script>
 
-    // 음성인식
-    const searchConsole = document.getElementById("request");
+        // 음성인식
+        const searchConsole = document.getElementById("request");
 
-    // ----- 현재 브라우저에서 API 사용이 유효한가를 검증
-    function availabilityFunc() {
-        //현재 SpeechRecognition을 지원하는 크롬 버전과 webkit 형태로 제공되는 버전이 있으므로 둘 중 해당하는 생성자를 호출한다.
-        recognition = new webkitSpeechRecognition() || new SpeechRecognition();
-        recognition.lang = "ko"; // 음성인식에 사용되고 반환될 언어를 설정한다.
-        recognition.maxAlternatives = 5; //음성 인식결과를 5개 까지 보여준다.
-        recognition.interimResults = true; // 중간 결과를 반환하도록 설정 (선택 사항)
+        // ----- 현재 브라우저에서 API 사용이 유효한가를 검증
+        function availabilityFunc() {
+            //현재 SpeechRecognition을 지원하는 크롬 버전과 webkit 형태로 제공되는 버전이 있으므로 둘 중 해당하는 생성자를 호출한다.
+            recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+            recognition.lang = "ko"; // 음성인식에 사용되고 반환될 언어를 설정한다.
+            recognition.maxAlternatives = 5; //음성 인식결과를 5개 까지 보여준다.
+            recognition.interimResults = true; // 중간 결과를 반환하도록 설정 (선택 사항)
 
-        if (!recognition) {
-            alert("현재 브라우저는 사용이 불가능합니다.");
+            if (!recognition) {
+                alert("현재 브라우저는 사용이 불가능합니다.");
+            }
         }
-    }
 
-    // --- 음성녹음을 실행하는 함수
-    function startRecord() {
-        console.log("시작");
+        // --- 음성녹음을 실행하는 함수
+        function startRecord() {
+            console.log("시작");
 
-        // ⏺️클릭 시 음성인식을 시작한다.
-        recognition.addEventListener("speechstart", () => {
-            console.log("인식");
-        });
+            // ⏺️클릭 시 음성인식을 시작한다.
+            recognition.addEventListener("speechstart", () => {
+                console.log("인식");
+            });
 
-        //음성인식이 끝까지 이루어지면 중단된다.
-        recognition.addEventListener("speechend", () => {
-            console.log("인식2");
-        });
+            //음성인식이 끝까지 이루어지면 중단된다.
+            recognition.addEventListener("speechend", () => {
+                console.log("인식2");
+            });
 
-        //음성인식 결과를 반환
-        // SpeechRecognitionResult 에 담겨서 반환된다.
-        recognition.addEventListener("result", (e) => {
-            searchConsole.value = e.results[0][0].transcript;
-        });
+            //음성인식 결과를 반환
+            // SpeechRecognitionResult 에 담겨서 반환된다.
+            recognition.addEventListener("result", (e) => {
+                searchConsole.value = e.results[0][0].transcript;
+            });
 
-        recognition.start();
-    }
-    //  🛑 클릭 시 종료(안 눌러도 음성인식은 알아서 종료됨)
-    function endRecord() {
-        console.log("종료");
-        recognition.stop(); // 음성인식을 중단하고 중단까지의 결과를 반환
-    }
+            recognition.start();
+        }
+        //  🛑 클릭 시 종료(안 눌러도 음성인식은 알아서 종료됨)
+        function endRecord() {
+            console.log("종료");
+            recognition.stop(); // 음성인식을 중단하고 중단까지의 결과를 반환
+        }
 
-    window.addEventListener("load", availabilityFunc);
-    //음성인식 끝
-
+        window.addEventListener("load", availabilityFunc);
+        //음성인식 끝
 
 
-
-
-    //지도
-    var latitude = document.getElementById("latitude").value;
-    var longitude = document.getElementById("longitude").value;
-
-    if (navigator.geolocation) {
+        //지도
         navigator.geolocation.getCurrentPosition(function (position) {
-            latitude = position.coords.latitude;  // 위도
-            longitude = position.coords.longitude;  // 경도
+            var latitude = position.coords.latitude;  // 위도
+            var longitude = position.coords.longitude;  // 경도
             console.log("위도: " + latitude);
             console.log("경도: " + longitude);
 
@@ -191,54 +191,51 @@
             document.getElementById('latitude').value = latitude;
             document.getElementById('longitude').value = longitude;
 
+            // 가져온 좌표로 지도 초기화
+            initMap(latitude, longitude)
 
-
-            // // 마커 드래그 종료 후 지도 중심 업데이트
-            // naver.maps.Event.addListener(marker, 'dragend', function () {
-            //     var newPos = marker.getPosition();
-            //     map.setCenter(newPos); // 지도 중심을 마커 위치로 변경
-
-            //     // 새 좌표로 input 필드 업데이트
-            //     document.getElementById('latitude').value = newPos.lat();
-            //     document.getElementById('longitude').value = newPos.lng();
-
-            //     console.log("새로운 위도: " + newPos.lat());
-            //     console.log("새로운 경도: " + newPos.lng());
-            // });
         }, function (error) {
             console.error("위치를 가져오는 데 실패했습니다: " + error.message);
+            var latitude = document.getElementById("latitude").value;
+            var longitude = document.getElementById("longitude").value;
+
+            // 기본값으로 지도 초기화
+            initMap(latitude, longitude)
         });
-    } else {
-        console.log("이 브라우저는 Geolocation을 지원하지 않습니다.");
-    }
 
-    // 지도 초기화
-    var mapOptions = {
-        center: new naver.maps.LatLng(latitude, longitude),
-        zoom: 19,
-        zoomControl: true,
-        zoomControlOptions: {
-            position: naver.maps.Position.TOP_RIGHT
+        // 지도 초기화 함수
+        function initMap(lati, longi) {
+            // 지도 옵션
+            var mapOptions = {
+                center: new naver.maps.LatLng(lati, longi),
+                zoom: 19,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: naver.maps.Position.TOP_RIGHT
+                }
+            };
+            var map = new naver.maps.Map('map', mapOptions);
+
+            // 지도 중심에 맞춰 마커를 생성
+            var marker = new naver.maps.Marker({
+                position: map.getCenter(),
+                map: map,
+                draggable: false // 마커를 드래그할 수 있도록 설정
+            });
+
+            // 지도 중심이 변경될 때마다 마커 위치 업데이트
+            naver.maps.Event.addListener(map, 'center_changed', function () {
+                var newCenter = map.getCenter();
+                marker.setPosition(newCenter);
+
+                // 새 좌표로 input 필드 업데이트
+                document.getElementById('latitude').value = newCenter.lat();
+                document.getElementById('longitude').value = newCenter.lng();
+            });
         }
-    };
-    var map = new naver.maps.Map('map', mapOptions);
+        // 지도 끝
 
-    // 지도 중심에 맞춰 마커를 생성
-    var marker = new naver.maps.Marker({
-        position: map.getCenter(),
-        map: map,
-        draggable: false // 마커를 드래그할 수 있도록 설정
-    });
-
-    // 지도 중심이 변경될 때마다 마커 위치 업데이트
-    naver.maps.Event.addListener(map, 'center_changed', function () {
-        var newCenter = map.getCenter();
-        marker.setPosition(newCenter);
-
-        // 새 좌표로 input 필드 업데이트
-        document.getElementById('latitude').value = newCenter.lat();
-        document.getElementById('longitude').value = newCenter.lng();
-    });
-</script>
+    </script>
 </body>
+
 </html>
