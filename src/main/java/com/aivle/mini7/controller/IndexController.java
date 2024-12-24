@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,20 +24,28 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/recommend_hospital")
-    public ModelAndView recommend_hospital(@RequestParam("request") String request, @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
-
-
-//        FastApiClient 를 호출한다.
+    @PostMapping("/recommend_hospital")
+    public ModelAndView recommend_hospital(@RequestParam("request") String request,
+                                           @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
+        System.out.println("request" + request);
+        System.out.println("latitude" + latitude);
+        System.out.println("longitude" + longitude);
+        // FastApiClient 를 호출한다.
         List<HospitalResponse> hospitalList = fastApiClient.getHospital(request, latitude, longitude);
-        log.info("hospital: {}", hospitalList);
-
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("recommend_hospital");
-        mv.addObject("hospitalList", hospitalList);
+        if (hospitalList == null || hospitalList.isEmpty()) {
+            mv.setViewName("personal");
+            mv.addObject("message", "개인 건강관리");
+        } else {
+            mv.setViewName("recommend_hospital");
+            mv.addObject("hospitalList", hospitalList);
+        }
 
         return mv;
     }
+
+
 }
+
 
 
