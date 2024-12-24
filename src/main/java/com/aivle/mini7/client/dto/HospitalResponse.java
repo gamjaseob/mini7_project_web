@@ -18,6 +18,9 @@ public class HospitalResponse {
     private double longitude;
     private double distance;
     private List<List<Double>> route;
+
+    //count 추가
+    private int count;
 }
 
 
