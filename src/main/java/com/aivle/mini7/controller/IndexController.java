@@ -7,7 +7,10 @@ import com.aivle.mini7.domain.EmergencyRequest;
 import com.aivle.mini7.service.EmergencyRequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +28,12 @@ public class IndexController {
     private final FastApiClient fastApiClient;
     private final EmergencyRequestService emergencyRequestService;
 
+    @Value("${naver.map.id}")
+    private String mapId;
+    
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("mapId", mapId);
         return "index";
     }
 
@@ -57,6 +64,7 @@ public class IndexController {
 
             mv.setViewName("recommend_hospital");
             mv.addObject("hospitalList", response.getResult());
+            mv.addObject("mapId", mapId);
         } else {
             mv.setViewName("personal");
             mv.addObject("message", "개인 건강관리");
