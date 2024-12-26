@@ -4,11 +4,11 @@ import com.aivle.mini7.domain.EmergencyRequest;
 import com.aivle.mini7.service.EmergencyRequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -31,10 +31,28 @@ public class EmergencyRequestController {
     @GetMapping("/admintest/search")
     public ModelAndView searchByTimeRange(@RequestParam("start") String start,
                                           @RequestParam("end") String end) {
-        List<EmergencyRequest> filteredRequests = service.getRequestsByTimeRange(start, end);
+        LocalDate endDate = LocalDate.parse(end).plusDays(1);
+        String adjustedEnd = endDate.toString();
+        List<EmergencyRequest> filteredRequests = service.getRequestsByTimeRange(start, adjustedEnd);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admintest");
         modelAndView.addObject("requests", filteredRequests);
         return modelAndView;
+    }
+    @PostMapping("/admintest/clear")
+    public ResponseEntity<Void> clearAllRequests() {
+        log.info("Clearing all emergency requests...");
+        service.deleteAllRequests();
+        return ResponseEntity.status(302) // HTTP 302 Found
+                .header("Location", "/admintest") // 리다이렉트 URL
+                .build();
+    }
+    @PostMapping("/admintest/delete/{id}")
+    public ResponseEntity<Void> deleteRequestById(@PathVariable Integer id) {
+        log.info("Deleting request with ID: {}", id);
+        service.deleteRequestById(id);
+        return ResponseEntity.status(302) // HTTP 302 Found
+                .header("Location", "/admintest") // 리다이렉트 URL
+                .build();
     }
 }

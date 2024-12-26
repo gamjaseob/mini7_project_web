@@ -22,5 +22,11 @@ public class EmergencyRequestService {
     public List<EmergencyRequest> getAllRequests() {
         return repository.findAll();
     }
+    public void deleteAllRequests() {
+        repository.deleteAll();
+    }
+    public void deleteRequestById(Integer id) {
+        repository.deleteById(id);
+    }
 
 }
