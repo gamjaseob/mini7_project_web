@@ -2,52 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Emergency Requests</title>
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/emergency_requests.css">
 </head>
 <body>
 <div class="container mt-4">
-  <h1>Emergency Requests</h1>
-  <table class="table table-bordered">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Datetime</th>
-      <th>Input Text</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Emergency Class</th>
-      <th>hospital1</th>
-      <th>addr1</th>
-      <th>tel1</th>
-      <th>hospital2</th>
-      <th>addr2</th>
-      <th>tel2</th>
-      <th>hospital3</th>
-      <th>addr3</th>
-      <th>tel3</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 데이터를 반복하여 테이블에 출력 -->
-    <tr th:each="request : ${requests}">
-      <td th:text="${request.id}"></td>
-      <td th:text="${request.datetime}"></td>
-      <td th:text="${request.inputText}"></td>
-      <td th:text="${request.inputLatitude}"></td>
-      <td th:text="${request.inputLongitude}"></td>
-      <td th:text="${request.emclass}"></td>
-      <td th:text="${request.hospital1}"></td>
-      <td th:text="${request.addr1}"></td>
-      <td th:text="${request.tel1}"></td>
-      <td th:text="${request.hospital2}"></td>
-      <td th:text="${request.addr2}"></td>
-      <td th:text="${request.tel2}"></td>
-      <td th:text="${request.hospital3}"></td>
-      <td th:text="${request.addr3}"></td>
-      <td th:text="${request.tel3}"></td>
-    </tr>
-    </tbody>
-  </table>
+  <h1 class="text-center title">Emergency Requests</h1>
+
+  <!-- 시간 범위 필터링 폼 -->
+  <form class="row mb-4" th:action="@{/admintest/search}" method="get">
+    <div class="col-md-4">
+      <label for="start" class="form-label">Start Time</label>
+      <input type="datetime-local" class="form-control" id="start" name="start" required>
+    </div>
+    <div class="col-md-4">
+      <label for="end" class="form-label">End Time</label>
+      <input type="datetime-local" class="form-control" id="end" name="end" required>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+  </form>
+
+  <!-- 데이터 테이블 -->
+  <div class="table-container">
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr class="table-header">
+        <th>ID</th>
+        <th>Datetime</th>
+        <th>Input Text</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Emergency Class</th>
+        <th>Hospital 1</th>
+        <th>Address 1</th>
+        <th>Tel 1</th>
+        <th>Hospital 2</th>
+        <th>Address 2</th>
+        <th>Tel 2</th>
+        <th>Hospital 3</th>
+        <th>Address 3</th>
+        <th>Tel 3</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- 데이터를 반복하여 테이블에 출력 -->
+      <tr th:each="request : ${requests}">
+        <td th:text="${request.id}"></td>
+        <td th:text="${request.datetime}"></td>
+        <td th:text="${request.inputText}"></td>
+        <td th:text="${#numbers.formatDecimal(request.inputLatitude, 2, 2)}"></td>
+        <td th:text="${#numbers.formatDecimal(request.inputLongitude, 2, 2)}"></td>
+        <td th:text="${request.emclass}"></td>
+        <td th:text="${request.hospital1}"></td>
+        <td th:text="${request.addr1}"></td>
+        <td th:text="${request.tel1}"></td>
+        <td th:text="${request.hospital2}"></td>
+        <td th:text="${request.addr2}"></td>
+        <td th:text="${request.tel2}"></td>
+        <td th:text="${request.hospital3}"></td>
+        <td th:text="${request.addr3}"></td>
+        <td th:text="${request.tel3}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 </body>
 </html>
