@@ -31,7 +31,9 @@ public class IndexController {
 
     @PostMapping("/recommend_hospital")
     public ModelAndView recommend_hospital(@RequestParam("request") String request,
-                                           @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
+                                           @RequestParam("latitude") double latitude,
+                                           @RequestParam("longitude") double longitude,
+                                           @RequestParam("count") int count) {
         System.out.println("request" + request);
         System.out.println("latitude" + latitude);
         System.out.println("longitude" + longitude);
@@ -59,8 +61,10 @@ public class IndexController {
             mv.setViewName("recommend_hospital");
             mv.addObject("hospitalList", hospitalList);
         }
+
         return mv;
     }
+
 
 }
 
