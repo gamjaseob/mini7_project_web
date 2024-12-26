@@ -50,12 +50,6 @@ public class IndexController {
             emergencyRequest.setHospital1(hospitalList.get(0).getHospitalName());
             emergencyRequest.setAddr1(hospitalList.get(0).getAddress());
             emergencyRequest.setTel1(hospitalList.get(0).getPhoneNumber1());
-            emergencyRequest.setHospital2(hospitalList.get(1).getHospitalName());
-            emergencyRequest.setAddr2(hospitalList.get(1).getAddress());
-            emergencyRequest.setTel2(hospitalList.get(1).getPhoneNumber1());
-            emergencyRequest.setHospital3(hospitalList.get(2).getHospitalName());
-            emergencyRequest.setAddr3(hospitalList.get(2).getAddress());
-            emergencyRequest.setTel3(hospitalList.get(2).getPhoneNumber1());
             emergencyRequestService.saveRequest(emergencyRequest);
         }
         if (hospitalList == null || hospitalList.isEmpty()) {
