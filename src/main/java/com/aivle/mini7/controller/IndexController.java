@@ -1,6 +1,7 @@
 package com.aivle.mini7.controller;
 
 import com.aivle.mini7.client.api.FastApiClient;
+import com.aivle.mini7.client.dto.FastApiResponse;
 import com.aivle.mini7.client.dto.HospitalResponse;
 import com.aivle.mini7.domain.EmergencyRequest;
 import com.aivle.mini7.service.EmergencyRequestService;
@@ -38,28 +39,27 @@ public class IndexController {
         System.out.println("latitude" + latitude);
         System.out.println("longitude" + longitude);
         // FastApiClient 를 호출한다.
-        List<HospitalResponse> hospitalList = fastApiClient.getHospital(request, latitude, longitude);
+        FastApiResponse response = fastApiClient.getHospital(request, latitude, longitude,count);
         LocalDateTime now = LocalDateTime.now();
         String formattedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         ModelAndView mv = new ModelAndView();
-        if (!hospitalList.isEmpty()) {
+        if (response.getPredicted_class() <= 2 && response.getResult() != null && !response.getResult().isEmpty()) {
             EmergencyRequest emergencyRequest = new EmergencyRequest();
-            emergencyRequest.setDatetime(formattedNow); // 임시 데이터
+            emergencyRequest.setDatetime(formattedNow);
             emergencyRequest.setInputText(request);
             emergencyRequest.setInputLatitude(latitude);
             emergencyRequest.setInputLongitude(longitude);
-            emergencyRequest.setEmclass(1); // 임시 데이터
-            emergencyRequest.setHospital1(hospitalList.get(0).getHospitalName());
-            emergencyRequest.setAddr1(hospitalList.get(0).getAddress());
-            emergencyRequest.setTel1(hospitalList.get(0).getPhoneNumber1());
+            emergencyRequest.setEmclass(response.getPredicted_class());
+            emergencyRequest.setHospital1(response.getResult().get(0).getHospitalName());
+            emergencyRequest.setAddr1(response.getResult().get(0).getAddress());
+            emergencyRequest.setTel1(response.getResult().get(0).getPhoneNumber1());
             emergencyRequestService.saveRequest(emergencyRequest);
-        }
-        if (hospitalList == null || hospitalList.isEmpty()) {
+
+            mv.setViewName("recommend_hospital");
+            mv.addObject("hospitalList", response.getResult());
+        } else {
             mv.setViewName("personal");
             mv.addObject("message", "개인 건강관리");
-        } else {
-            mv.setViewName("recommend_hospital");
-            mv.addObject("hospitalList", hospitalList);
         }
 
         return mv;
